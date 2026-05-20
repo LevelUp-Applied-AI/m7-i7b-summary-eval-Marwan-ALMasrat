@@ -1,10 +1,5 @@
 """
 Module 7 Week B — Integration Task: Summarization & Integrated Evaluation Report.
-
-Implement the functions below. See the integration guide for full task descriptions.
-
-The integrated evaluation report (`integrated-evaluation-report.md`) is the M7
-deliverable. Write it by hand based on the metrics produced by main().
 """
 
 import json
@@ -16,7 +11,6 @@ import pandas as pd
 # -- Helpers (provided — do NOT modify) --------------------------------------
 
 def get_summarizer_model_name() -> str:
-    """Return env override (CI smoke) or the default summarization model."""
     return os.environ.get("SUMM_MODEL_FOR_CI", "sshleifer/distilbart-cnn-6-6")
 
 
@@ -36,59 +30,67 @@ def _output_path() -> str:
 
 def build_summarizer(model_name: str):
     """Construct a Hugging Face summarization pipeline."""
-    # TODO: build a summarization pipeline using the given model name (same as the drill)
-    raise NotImplementedError("build_summarizer not implemented")
+    from transformers import pipeline
+    return pipeline("summarization", model=model_name)
 
 
 def summarize_one(summ, text: str, max_length: int = 120, min_length: int = 30) -> str:
-    """
-    Summarize one document with deterministic beam search.
-
-    Use do_sample=False, num_beams=4. Return the summary STRING from
-    [0]["summary_text"].
-    """
-    # TODO: invoke the pipeline with deterministic generation parameters (no sampling, beam search) and return the summary string
-    raise NotImplementedError("summarize_one not implemented")
+    """Summarize one document with deterministic beam search."""
+    result = summ(
+        text,
+        max_length=max_length,
+        min_length=min_length,
+        do_sample=False,
+        num_beams=4,
+    )
+    return result[0]["summary_text"]
 
 
 # -- Task 2: ROUGE -----------------------------------------------------------
 
 def compute_rouge(pred: str, ref: str) -> dict:
-    """
-    Compute ROUGE-1, ROUGE-2, and ROUGE-L F1.
+    """Compute ROUGE-1, ROUGE-2, and ROUGE-L F1."""
+    from rouge_score import rouge_scorer
 
-    Use rouge_score.rouge_scorer.RougeScorer with use_stemmer=True.
-    Argument order: scorer.score(reference, predicted) — REFERENCE FIRST.
-
-    Returns {"rouge1": float, "rouge2": float, "rougeL": float}, all F1.
-    """
-    # TODO: build a stemming-enabled ROUGE scorer over the three metric variants
-    # TODO: score the (reference, predicted) pair and return F1 measures only (note argument order)
-    raise NotImplementedError("compute_rouge not implemented")
+    scorer = rouge_scorer.RougeScorer(
+        ["rouge1", "rouge2", "rougeL"],
+        use_stemmer=True,
+    )
+    scores = scorer.score(ref, pred)   # reference first!
+    return {
+        "rouge1": scores["rouge1"].fmeasure,
+        "rouge2": scores["rouge2"].fmeasure,
+        "rougeL": scores["rougeL"].fmeasure,
+    }
 
 
 # -- Task 3: Evaluate over the corpus ----------------------------------------
 
 def evaluate_summaries(summ, articles_df: pd.DataFrame, refs_df: pd.DataFrame) -> dict:
-    """
-    Summarize each article and score against its reference.
+    """Summarize each article and score against its reference."""
+    merged = articles_df.merge(refs_df, on="article_id")
 
-    Returns:
-        {
-          "rouge1": float, "rouge2": float, "rougeL": float,
-          "n": int,
-          "predictions": [
-            {article_id, reference_summary, predicted_summary, rouge1, rouge2, rougeL},
-            ...
-          ],
-        }
+    predictions = []
+    for _, row in merged.iterrows():
+        predicted = summarize_one(summ, row["text"])
+        rouge = compute_rouge(predicted, row["reference_summary"])
+        predictions.append({
+            "article_id": row["article_id"],
+            "reference_summary": row["reference_summary"],
+            "predicted_summary": predicted,
+            "rouge1": rouge["rouge1"],
+            "rouge2": rouge["rouge2"],
+            "rougeL": rouge["rougeL"],
+        })
 
-    Joins articles_df and refs_df on article_id.
-    """
-    # TODO: merge the two DataFrames on article_id
-    # TODO: iterate, summarize each article, compute ROUGE vs. reference
-    # TODO: aggregate (mean across summaries) and return the dict
-    raise NotImplementedError("evaluate_summaries not implemented")
+    n = len(predictions)
+    return {
+        "rouge1": sum(p["rouge1"] for p in predictions) / n,
+        "rouge2": sum(p["rouge2"] for p in predictions) / n,
+        "rougeL": sum(p["rougeL"] for p in predictions) / n,
+        "n": n,
+        "predictions": predictions,
+    }
 
 
 # -- Task 4: Orchestrate -----------------------------------------------------
@@ -114,7 +116,7 @@ def main() -> None:
         "model": get_summarizer_model_name(),
     }
     metrics_path = _output_path().replace("predictions", "metrics").replace(".csv", ".json")
-    if metrics_path == _output_path():  # safety: ensure rename happened
+    if metrics_path == _output_path():
         metrics_path = "summary_metrics.json"
     with open(metrics_path, "w") as f:
         json.dump(metrics, f, indent=2)
