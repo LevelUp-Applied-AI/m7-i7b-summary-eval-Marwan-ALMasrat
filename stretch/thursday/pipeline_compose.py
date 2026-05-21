@@ -1,11 +1,5 @@
 """
 Module 7 Week B — Thursday Stretch (Honors): Summarize-then-QA.
-
-Composes the Integration 7B summarizer with the Lab 7B QA pipeline. You will
-need the QA pipeline + EM/F1 functions from your Lab 7B `lab.py` — copy them
-into `qa_utils.py` here, or import them via a path stub (see TODO below).
-
-Implement the four TODO functions; see the stretch page for full task description.
 """
 
 import json
@@ -14,17 +8,12 @@ import sys
 
 import pandas as pd
 
-# Import the integration's summarizer functions
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 import summarize  # noqa: E402
 
-# QA pipeline + EM/F1 functions are NOT in this Integration 7B repo. Copy them
-# from your Lab 7B `lab.py` into `stretch/thursday/qa_utils.py` so this script
-# can import them. The autograder verifies these functions are callable; do not
-# proceed without them.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 try:
-    import qa_utils  # noqa: E402  (provides build_qa_pipeline, predict_one, exact_match, token_f1, normalize_answer, get_qa_model_name)
+    import qa_utils  # noqa: E402
 except ImportError as e:
     raise ImportError(
         "qa_utils.py not found. Copy build_qa_pipeline, predict_one, exact_match, "
@@ -36,48 +25,131 @@ except ImportError as e:
 def qa_full_article(qa, question: str, article: str, max_chunk: int = 384) -> str:
     """
     Run QA over the full article, chunking with overlap when it exceeds max_chunk tokens.
-
     Returns the answer span from the highest-scoring chunk.
     """
-    # TODO: token-count the article (use a tokenizer or a rough word count); if it fits, call qa once and return predict_one's answer
-    # TODO: if it exceeds max_chunk, split into overlapping windows (e.g., 384-token windows with 64-token overlap)
-    # TODO: call qa on each window; track the pipeline's score per window
-    # TODO: return the answer string from the highest-scoring window
-    raise NotImplementedError("qa_full_article not implemented")
+    # Tokenize using the QA pipeline's tokenizer for an accurate token count
+    tokenizer = qa.tokenizer
+    tokens = tokenizer.encode(article, add_special_tokens=False)
+
+    # If the article fits within max_chunk, run QA directly
+    if len(tokens) <= max_chunk:
+        result = qa(question=question, context=article)
+        return result["answer"]
+
+    # Otherwise, split into overlapping windows
+    overlap = 64
+    stride = max_chunk - overlap
+
+    best_answer = ""
+    best_score = -float("inf")
+
+    start = 0
+    while start < len(tokens):
+        end = min(start + max_chunk, len(tokens))
+        chunk_tokens = tokens[start:end]
+
+        # Decode the chunk back to text
+        chunk_text = tokenizer.decode(chunk_tokens, skip_special_tokens=True)
+
+        result = qa(question=question, context=chunk_text)
+        score = result.get("score", 0.0)
+
+        if score > best_score:
+            best_score = score
+            best_answer = result["answer"]
+
+        if end == len(tokens):
+            break
+        start += stride
+
+    return best_answer
 
 
 def qa_via_summary(qa, summ, question: str, article: str, max_summary_length: int = 120) -> str:
     """
     Summarize the article first, then run QA on the summary.
-
-    Returns the answer string. Uses Integration 7B's summarize_one (do_sample=False, num_beams=4).
+    Returns the answer string.
     """
-    # TODO: summarize the article using summarize.summarize_one with the given max_summary_length
-    # TODO: run QA on the summary using qa_utils.predict_one
-    # TODO: return the answer string
-    raise NotImplementedError("qa_via_summary not implemented")
+    # Step 1: Summarize the article using Integration 7B's summarize_one
+    summary = summarize.summarize_one(
+    summ,
+    article,
+    max_length=max_summary_length,
+)
+
+    # Step 2: Run QA on the summary
+    answer = qa_utils.predict_one(qa, question, summary)
+
+    return answer
 
 
 def evaluate_strategies(qa, summ, test_set: pd.DataFrame, articles_df: pd.DataFrame) -> dict:
     """
     Run both strategies on every row of the test set; compute per-strategy EM/F1.
-
-    Returns:
-        {
-          "strategy_a": {"em": float, "f1": float, "n": int},
-          "strategy_b": {"em": float, "f1": float, "n": int},
-          "predictions": [
-            {qid, question, strategy_a_pred, strategy_b_pred, gold_answer,
-             strategy_a_em, strategy_a_f1, strategy_b_em, strategy_b_f1},
-            ...
-          ],
-        }
     """
-    # TODO: for each test_set row, look up the article in articles_df by article_id
-    # TODO: call qa_full_article (Strategy A) and qa_via_summary (Strategy B); record predictions
-    # TODO: compute EM + F1 for each strategy via qa_utils.exact_match / qa_utils.token_f1
-    # TODO: aggregate per-strategy means; return the combined dict
-    raise NotImplementedError("evaluate_strategies not implemented")
+    predictions = []
+
+    for _, row in test_set.iterrows():
+        qid = str(row["qid"])
+        question = str(row["question"])
+        article_id = row["article_id"]
+        gold_answer = str(row["gold_answer"])
+
+        # Look up the article text
+        article_rows = articles_df[articles_df["article_id"] == article_id]
+        if article_rows.empty:
+            # Try matching by index or id column as fallback
+            article_rows = articles_df[articles_df.index == article_id]
+
+        if article_rows.empty:
+            print(f"Warning: article_id={article_id} not found, skipping qid={qid}")
+            continue
+
+        article_text = str(article_rows.iloc[0]["text"])
+
+        # Strategy A: QA on the full article (with chunking)
+        pred_a = qa_full_article(qa, question, article_text)
+
+        # Strategy B: Summarize-then-QA
+        pred_b = qa_via_summary(qa, summ, question, article_text)
+
+        # Compute EM and F1 for both strategies
+        em_a = qa_utils.exact_match(pred_a, gold_answer)
+        f1_a = qa_utils.token_f1(pred_a, gold_answer)
+        em_b = qa_utils.exact_match(pred_b, gold_answer)
+        f1_b = qa_utils.token_f1(pred_b, gold_answer)
+
+        predictions.append({
+            "qid": qid,
+            "question": question,
+            "strategy_a_pred": pred_a,
+            "strategy_b_pred": pred_b,
+            "gold_answer": gold_answer,
+            "strategy_a_em": em_a,
+            "strategy_a_f1": f1_a,
+            "strategy_b_em": em_b,
+            "strategy_b_f1": f1_b,
+        })
+
+    n = len(predictions)
+
+    if n == 0:
+        return {
+            "strategy_a": {"em": 0.0, "f1": 0.0, "n": 0},
+            "strategy_b": {"em": 0.0, "f1": 0.0, "n": 0},
+            "predictions": [],
+        }
+
+    avg_em_a = sum(p["strategy_a_em"] for p in predictions) / n
+    avg_f1_a = sum(p["strategy_a_f1"] for p in predictions) / n
+    avg_em_b = sum(p["strategy_b_em"] for p in predictions) / n
+    avg_f1_b = sum(p["strategy_b_f1"] for p in predictions) / n
+
+    return {
+        "strategy_a": {"em": avg_em_a, "f1": avg_f1_a, "n": n},
+        "strategy_b": {"em": avg_em_b, "f1": avg_f1_b, "n": n},
+        "predictions": predictions,
+    }
 
 
 def main() -> None:
