@@ -23,6 +23,7 @@ except ImportError as e:
 
 
 def qa_full_article(qa, question: str, article: str, max_chunk: int = 384) -> str:
+<<<<<<< Updated upstream
     """
     Run QA over the full article, chunking with overlap when it exceeds max_chunk tokens.
     Returns the answer span from the highest-scoring chunk.
@@ -32,14 +33,24 @@ def qa_full_article(qa, question: str, article: str, max_chunk: int = 384) -> st
     tokens = tokenizer.encode(article, add_special_tokens=False)
 
     # If the article fits within max_chunk, run QA directly
+=======
+    tokenizer = qa.tokenizer
+    tokens = tokenizer.encode(article, add_special_tokens=False)
+
+>>>>>>> Stashed changes
     if len(tokens) <= max_chunk:
         result = qa(question=question, context=article)
         return result["answer"]
 
+<<<<<<< Updated upstream
     # Otherwise, split into overlapping windows
     overlap = 64
     stride = max_chunk - overlap
 
+=======
+    overlap = 64
+    stride = max_chunk - overlap
+>>>>>>> Stashed changes
     best_answer = ""
     best_score = -float("inf")
 
@@ -47,8 +58,11 @@ def qa_full_article(qa, question: str, article: str, max_chunk: int = 384) -> st
     while start < len(tokens):
         end = min(start + max_chunk, len(tokens))
         chunk_tokens = tokens[start:end]
+<<<<<<< Updated upstream
 
         # Decode the chunk back to text
+=======
+>>>>>>> Stashed changes
         chunk_text = tokenizer.decode(chunk_tokens, skip_special_tokens=True)
 
         result = qa(question=question, context=chunk_text)
@@ -66,6 +80,7 @@ def qa_full_article(qa, question: str, article: str, max_chunk: int = 384) -> st
 
 
 def qa_via_summary(qa, summ, question: str, article: str, max_summary_length: int = 120) -> str:
+<<<<<<< Updated upstream
     """
     Summarize the article first, then run QA on the summary.
     Returns the answer string.
@@ -80,13 +95,24 @@ def qa_via_summary(qa, summ, question: str, article: str, max_summary_length: in
     # Step 2: Run QA on the summary
     answer = qa_utils.predict_one(qa, question, summary)
 
+=======
+    summary = summarize.summarize_one(
+        summ,
+        article,
+        max_length=max_summary_length,
+    )
+    answer = qa_utils.predict_one(qa, question, summary)
+>>>>>>> Stashed changes
     return answer
 
 
 def evaluate_strategies(qa, summ, test_set: pd.DataFrame, articles_df: pd.DataFrame) -> dict:
+<<<<<<< Updated upstream
     """
     Run both strategies on every row of the test set; compute per-strategy EM/F1.
     """
+=======
+>>>>>>> Stashed changes
     predictions = []
 
     for _, row in test_set.iterrows():
@@ -95,6 +121,7 @@ def evaluate_strategies(qa, summ, test_set: pd.DataFrame, articles_df: pd.DataFr
         article_id = row["article_id"]
         gold_answer = str(row["gold_answer"])
 
+<<<<<<< Updated upstream
         # Look up the article text
         article_rows = articles_df[articles_df["article_id"] == article_id]
         if article_rows.empty:
@@ -102,11 +129,16 @@ def evaluate_strategies(qa, summ, test_set: pd.DataFrame, articles_df: pd.DataFr
             article_rows = articles_df[articles_df.index == article_id]
 
         if article_rows.empty:
+=======
+        article_rows = articles_df[articles_df["article_id"] == article_id]
+        if article_rows.empty:
+>>>>>>> Stashed changes
             print(f"Warning: article_id={article_id} not found, skipping qid={qid}")
             continue
 
         article_text = str(article_rows.iloc[0]["text"])
 
+<<<<<<< Updated upstream
         # Strategy A: QA on the full article (with chunking)
         pred_a = qa_full_article(qa, question, article_text)
 
@@ -114,6 +146,11 @@ def evaluate_strategies(qa, summ, test_set: pd.DataFrame, articles_df: pd.DataFr
         pred_b = qa_via_summary(qa, summ, question, article_text)
 
         # Compute EM and F1 for both strategies
+=======
+        pred_a = qa_full_article(qa, question, article_text)
+        pred_b = qa_via_summary(qa, summ, question, article_text)
+
+>>>>>>> Stashed changes
         em_a = qa_utils.exact_match(pred_a, gold_answer)
         f1_a = qa_utils.token_f1(pred_a, gold_answer)
         em_b = qa_utils.exact_match(pred_b, gold_answer)
@@ -132,7 +169,10 @@ def evaluate_strategies(qa, summ, test_set: pd.DataFrame, articles_df: pd.DataFr
         })
 
     n = len(predictions)
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     if n == 0:
         return {
             "strategy_a": {"em": 0.0, "f1": 0.0, "n": 0},
@@ -140,6 +180,7 @@ def evaluate_strategies(qa, summ, test_set: pd.DataFrame, articles_df: pd.DataFr
             "predictions": [],
         }
 
+<<<<<<< Updated upstream
     avg_em_a = sum(p["strategy_a_em"] for p in predictions) / n
     avg_f1_a = sum(p["strategy_a_f1"] for p in predictions) / n
     avg_em_b = sum(p["strategy_b_em"] for p in predictions) / n
@@ -148,12 +189,24 @@ def evaluate_strategies(qa, summ, test_set: pd.DataFrame, articles_df: pd.DataFr
     return {
         "strategy_a": {"em": avg_em_a, "f1": avg_f1_a, "n": n},
         "strategy_b": {"em": avg_em_b, "f1": avg_f1_b, "n": n},
+=======
+    return {
+        "strategy_a": {
+            "em": sum(p["strategy_a_em"] for p in predictions) / n,
+            "f1": sum(p["strategy_a_f1"] for p in predictions) / n,
+            "n": n,
+        },
+        "strategy_b": {
+            "em": sum(p["strategy_b_em"] for p in predictions) / n,
+            "f1": sum(p["strategy_b_f1"] for p in predictions) / n,
+            "n": n,
+        },
+>>>>>>> Stashed changes
         "predictions": predictions,
     }
 
 
 def main() -> None:
-    """Load test set + articles, build pipelines, run both strategies, write artifacts."""
     test_set = pd.read_csv("stretch/thursday/qa_test_set.csv")
     articles_df = pd.read_csv("data/tech_news_articles.csv")
 
