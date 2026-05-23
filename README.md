@@ -4,6 +4,12 @@ This is the starter repo for the Module 7 Week B Integration Task. **The integra
 
 The full integration guide is at <a href="https://levelup-applied-ai.github.io/aispire-14005-pages/modules/module-7/496c1c2b" target="_blank">the integration guide page</a> — read it first.
 
+## Model and Corpus
+
+This integration uses **sshleifer/distilbart-cnn-6-6** — a distilled version of BART fine-tuned on the CNN/DailyMail summarization corpus. It is a 6-layer encoder / 6-layer decoder transformer (~300 MB) that generates abstractive summaries via beam search with `num_beams=4` and `do_sample=False`. The model loads from Hugging Face Hub at runtime; no model file is committed to this repo.
+
+The evaluation runs on **120 tech / entertainment news articles** from `data/tech_news_articles.csv` (1,033-article pool curated from glnmario/news-qa-summarization). Reference summaries are CNN editor-authored and ship in `data/tech_news_summaries_reference.csv`. To re-run the full evaluation: `make summarize`.
+
 ## Quick start
 
 ```bash
