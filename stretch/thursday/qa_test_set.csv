@@ -1,43 +1,21 @@
 qid,article_id,question,gold_answer,gold_evidence_in_article
-Q01,NEWS_0001,How old was Roman Polanski when he was arrested in Switzerland?,76,"Polanski, 76, was taken into custody trying to enter Switzerland on Saturday, Zurich police said."
-<<<<<<< Updated upstream
-Q02,NEWS_0001,In which country was Roman Polanski arrested?,Switzerland,Roman Polanski has been arrested in Switzerland on a decades-old arrest warrant stemming from a sex charge in California.
+Q01,NEWS_0001,How old was Roman Polanski when he was arrested in Switzerland?,76,Polanski, 76, was taken into custody trying to enter Switzerland on Saturday.
+Q02,NEWS_0001,In which country was Roman Polanski arrested?,Switzerland,Roman Polanski has been arrested in Switzerland on a decades-old arrest warrant.
 Q03,NEWS_0001,Where has Polanski lived for decades to avoid arrest?,France,He has lived in France for decades to avoid being arrested if he enters the United States.
-Q04,NEWS_0003,What award was Polanski traveling to accept when arrested?,Lifetime Achievement,When filmmaker Roman Polanski was arrested Saturday in Switzerland he was on his way to accept an award for Lifetime Achievement at the Zurich Film Festival.
-Q05,NEWS_0003,Who was the Swiss filmmaker who defended Polanski?,Otto Weisser,"Polanski's friend, Swiss filmmaker Otto Weisser, was among the first to publicly run to his defense."
-Q06,NEWS_0005,Where was Mat Kearney scheduled to perform?,Hollywood's Palladium,As he walks to his tour bus behind Hollywood's Palladium where he'll play in a few hours.
+Q04,NEWS_0003,What award was Polanski traveling to accept when arrested?,Lifetime Achievement,he was on his way to accept an award for Lifetime Achievement at the Zurich Film Festival.
+Q05,NEWS_0003,Who was the Swiss filmmaker who defended Polanski?,Otto Weisser,Swiss filmmaker Otto Weisser was among the first to publicly run to his defense.
+Q06,NEWS_0005,Where was Mat Kearney scheduled to perform?,Hollywood Palladium,he walks to his tour bus behind Hollywood Palladium where he will play in a few hours.
 Q07,NEWS_0006,Who was cast as Jason Voorhees in the new Friday the 13th movie?,Derek Mears,Mears was cast as the iconic boogeyman Jason Voorhees in the new Friday the 13th movie.
 Q08,NEWS_0006,What was the release year of the original Friday the 13th movie?,1980,A remake of the original 1980 film the new movie aims to breathe life into the former franchise.
-Q09,NEWS_0007,Since what year have account hijacking cases been reported to the Internet Crime Complaint Center?,2006,"Since 2006, nearly 3200 account hijacking cases have been reported to the Internet Crime Complaint Center."
-Q10,NEWS_0007,How many account hijacking cases have been reported since 2006?,3200,"Since 2006, nearly 3200 account hijacking cases have been reported to the Internet Crime Complaint Center."
-Q11,NEWS_0008,How often is a woman diagnosed with breast cancer in the United States?,Every three minutes,"Every three minutes in the United States, a woman is diagnosed with breast cancer."
-Q12,NEWS_0009,How many people were killed in the casino attack in Monterrey?,40,"At least 40 people were killed and numerous others injured in a reported grenade attack at a casino in Monterrey, Mexico."
-Q13,NEWS_0009,What was the name of the casino attacked in Monterrey?,Casino Royale,The incident occurred at the Casino Royale when two people aboard a vehicle arrived and threw grenades into the building.
-Q14,NEWS_0011,Who serenaded the Obamas at the inaugural ball?,Beyoncé,The Obamas were serenaded by Beyoncé during their first dance at the Neighborhood Ball Tuesday night.
-Q15,NEWS_0011,What song did Beyoncé sing at the inaugural ball?,At Last,Beyoncé sang Etta James' At Last from her role in the movie Cadillac Records as the couple took their first spin around the dance floor.
-Q16,NEWS_0013,What is Chris Pirillo president of?,Lockergnome.com,"A self-admitted tech geek, Chris Pirillo is president of Lockergnome.com, a blogging network."
-Q17,NEWS_0014,What film immortalized the smell of napalm in the morning?,Apocalypse Now,He immortalized the smell of napalm in the morning in Apocalypse Now but Robert Duvall's first meeting with Coppola was no indication of the fruitful relationship to come.
-Q18,NEWS_0017,How old was Luciano Pavarotti when he died?,71,"Famed tenor Luciano Pavarotti, who died on Thursday at the age of 71, was one of opera's most adaptable and ebullient performers."
-Q19,NEWS_0019,How old was George Harrison when he died?,58,"Harrison, who was 58 when he died of cancer in 2001, becomes the second Beatle with a Hollywood star."
-Q20,NEWS_0021,What NBC sitcom was Selma Blair starring in?,Kath and Kim,the 36-year-old star of NBC's upcoming mom-and-daughter sitcom Kath and Kim.
-=======
-Q02,NEWS_0001,In which country was Roman Polanski arrested?,Switzerland,"Roman Polanski has been arrested in Switzerland on a decades-old arrest warrant stemming from a sex charge in California."
-Q03,NEWS_0001,Where has Polanski lived for decades to avoid arrest?,France,"He has lived in France for decades to avoid being arrested if he enters the United States."
-Q04,NEWS_0003,What award was Polanski traveling to accept when arrested?,Lifetime Achievement,"When filmmaker Roman Polanski was arrested Saturday in Switzerland, he was on his way to accept an award for Lifetime Achievement at the Zurich Film Festival."
-Q05,NEWS_0003,Who was the Swiss filmmaker who defended Polanski?,Otto Weisser,"Polanski's friend, Swiss filmmaker Otto Weisser, was among the first to publicly run to his defense."
-Q06,NEWS_0005,Where was Mat Kearney scheduled to perform?,Hollywood's Palladium,"As he walks to his tour bus behind Hollywood's Palladium -- where he'll play in a few hours."
-Q07,NEWS_0006,Who was cast as Jason Voorhees in the new Friday the 13th movie?,Derek Mears,"Mears was cast as the iconic boogeyman Jason Voorhees in the new Friday the 13th movie."
-Q08,NEWS_0006,What was the original Friday the 13th movie released?,1980,"A remake of the original 1980 film, the new movie aims to breathe life into the former franchise."
-Q09,NEWS_0007,Since what year have account hijacking cases been reported to the Internet Crime Complaint Center?,2006,"Since 2006, nearly 3,200 account hijacking cases have been reported to the Internet Crime Complaint Center."
-Q10,NEWS_0007,How many account hijacking cases have been reported since 2006?,3200,"Since 2006, nearly 3,200 account hijacking cases have been reported to the Internet Crime Complaint Center."
-Q11,NEWS_0008,How often is a woman diagnosed with breast cancer in the United States?,Every three minutes,"Every three minutes in the United States, a woman is diagnosed with breast cancer."
-Q12,NEWS_0009,How many people were killed in the casino attack in Monterrey?,40,"At least 40 people were killed and numerous others injured in a reported grenade attack at a casino in Monterrey, Mexico."
-Q13,NEWS_0009,What was the name of the casino attacked in Monterrey?,Casino Royale,"The incident occurred around 4 p.m. local time (5 p.m. ET) at the Casino Royale when two people aboard a vehicle arrived."
-Q14,NEWS_0011,Who serenaded the Obamas at the inaugural ball?,Beyoncé,"The Obamas were serenaded by Beyoncé during their first dance at the Neighborhood Ball Tuesday night."
-Q15,NEWS_0011,What song did Beyoncé sing at the inaugural ball?,At Last,"Beyoncé sang Etta James' At Last, from her role in the movie Cadillac Records as the couple laughed and took their first spin around the dance floor."
-Q16,NEWS_0013,What is Chris Pirillo president of?,Lockergnome.com,"A self-admitted tech geek, Chris Pirillo is president of Lockergnome.com, a blogging network."
-Q17,NEWS_0014,What film immortalized the smell of napalm in the morning?,Apocalypse Now,"He immortalized the smell of napalm in the morning in Apocalypse Now, but Robert Duvall's first meeting with director Francis Ford Coppola was no indication of the fruitful relationship to come."
-Q18,NEWS_0017,How old was Luciano Pavarotti when he died?,71,"Famed tenor Luciano Pavarotti, who died on Thursday at the age of 71, was one of opera's most adaptable and ebullient performers."
-Q19,NEWS_0019,How old was George Harrison when he died?,58,"Harrison, who was 58 when he died of cancer in 2001, becomes the second Beatle with a Hollywood star."
-Q20,NEWS_0021,What NBC sitcom was Selma Blair starring in?,Kath and Kim,"the ever provocative Selma Blair, who experimented with all three looks in under a year, stars in NBC's upcoming mom-and-daughter sitcom Kath and Kim."
->>>>>>> Stashed changes
+Q09,NEWS_0007,Since what year have account hijacking cases been reported?,2006,Since 2006 nearly 3200 account hijacking cases have been reported to the Internet Crime Complaint Center.
+Q10,NEWS_0007,How many account hijacking cases have been reported since 2006?,3200,Since 2006 nearly 3200 account hijacking cases have been reported to the Internet Crime Complaint Center.
+Q11,NEWS_0008,How often is a woman diagnosed with breast cancer in the United States?,Every three minutes,Every three minutes in the United States a woman is diagnosed with breast cancer.
+Q12,NEWS_0009,How many people were killed in the casino attack in Monterrey?,40,At least 40 people were killed and numerous others injured in a reported grenade attack at a casino in Monterrey.
+Q13,NEWS_0009,What was the name of the casino attacked in Monterrey?,Casino Royale,The incident occurred at the Casino Royale when two people aboard a vehicle arrived.
+Q14,NEWS_0011,Who serenaded the Obamas at the inaugural ball?,Beyonce,The Obamas were serenaded by Beyonce during their first dance at the Neighborhood Ball Tuesday night.
+Q15,NEWS_0011,What song did Beyonce sing at the inaugural ball?,At Last,Beyonce sang Etta James At Last from her role in the movie Cadillac Records.
+Q16,NEWS_0013,What is Chris Pirillo president of?,Lockergnome.com,Chris Pirillo is president of Lockergnome.com a blogging network.
+Q17,NEWS_0014,What film immortalized the smell of napalm in the morning?,Apocalypse Now,He immortalized the smell of napalm in the morning in Apocalypse Now.
+Q18,NEWS_0017,How old was Luciano Pavarotti when he died?,71,Famed tenor Luciano Pavarotti who died on Thursday at the age of 71.
+Q19,NEWS_0019,How old was George Harrison when he died?,58,Harrison who was 58 when he died of cancer in 2001 becomes the second Beatle with a Hollywood star.
+Q20,NEWS_0021,What NBC sitcom was Selma Blair starring in?,Kath and Kim,the 36-year-old star of NBC upcoming mom-and-daughter sitcom Kath and Kim.

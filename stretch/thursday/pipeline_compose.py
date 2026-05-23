@@ -66,6 +66,11 @@ def qa_via_summary(qa, summ, question: str, article: str, max_summary_length: in
 
 
 def evaluate_strategies(qa, summ, test_set: pd.DataFrame, articles_df: pd.DataFrame) -> dict:
+    """
+    Evaluate both strategy_a (full-article QA with chunking) and strategy_b
+    (summarize-then-QA) over the test set. Returns a dict with strategy_a and
+    strategy_b sub-dicts (each containing em, f1, n) plus a predictions list.
+    """
     predictions = []
 
     for _, row in test_set.iterrows():
