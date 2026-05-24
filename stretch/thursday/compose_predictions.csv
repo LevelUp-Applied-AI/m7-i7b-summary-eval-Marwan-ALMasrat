@@ -4,20 +4,16 @@ Q02,In which country was Roman Polanski arrested?,Switzerland,Switzerland,Switze
 Q03,Where has Polanski lived for decades to avoid arrest?,France,France,France,1,1.0,1,1.0
 Q04,What award was Polanski traveling to accept when arrested?,Lifetime Achievement,Lifetime Achievement,Lifetime Achievement,1,1.0,1,1.0
 Q05,Who was the Swiss filmmaker who defended Polanski?,Otto Weisser,Otto Weisser,Otto Weisser,1,1.0,1,1.0
-Q06,Where was Mat Kearney scheduled to perform?,Hollywood's Palladium,Oregon,Hollywood's Palladium,1,1.0,0,0.0
+Q06,Where was Mat Kearney scheduled to perform?,Hollywood's Palladium,Oregon,palladium,0,0.6666666666666666,0,0.0
 Q07,Who was cast as Jason Voorhees in the new Friday the 13th movie?,Derek Mears,Derek Mears,Derek Mears,1,1.0,1,1.0
-<<<<<<< Updated upstream
 Q08,What was the release year of the original Friday the 13th movie?,1980,"Mears: ""I've got a lot of daddy issues.",1980,1,1.0,0,0.0
-=======
-Q08,What was the original Friday the 13th movie released?,1980,"No, I sound like a basket case.",1980,1,1.0,0,0.0
->>>>>>> Stashed changes
-Q09,Since what year have account hijacking cases been reported to the Internet Crime Complaint Center?,2006,2006,2006,1,1.0,1,1.0
-Q10,How many account hijacking cases have been reported since 2006?,"nearly 3,200","3,200",3200,0,0.6666666666666666,1,1.0
-Q11,How often is a woman diagnosed with breast cancer in the United States?,Every three minutes,Every three minutes,Every three minutes,1,1.0,1,1.0
-Q12,How many people were killed in the casino attack in Monterrey?,20,40,40,0,0.0,1,1.0
+Q09,Since what year have account hijacking cases been reported?,2006,2006,2006,1,1.0,1,1.0
+Q10,How many account hijacking cases have been reported since 2006?,"nearly 3,200","3,200","nearly 3,200",1,1.0,0,0.6666666666666666
+Q11,How often is a woman diagnosed with breast cancer in the United States?,Every three minutes,Every three minutes,every three minutes,1,1.0,1,1.0
+Q12,How many people were killed in the casino attack in Monterrey?,20,40,at least 40,0,0.0,0,0.5
 Q13,What was the name of the casino attacked in Monterrey?,Casino Royale,Nuevo Leon,Casino Royale,1,1.0,0,0.0
-Q14,Who serenaded the Obamas at the inaugural ball?,Beyoncé,Beyoncé,Beyoncé,1,1.0,1,1.0
-Q15,What song did Beyoncé sing at the inaugural ball?,At Last,At Last,At Last,1,1.0,1,1.0
+Q14,Who serenaded the Obamas at the inaugural ball?,Beyoncé,Beyoncé,beyoncé,1,1.0,1,1.0
+Q15,What song did Beyonce sing at the inaugural ball?,At Last,At Last,at last,1,1.0,1,1.0
 Q16,What is Chris Pirillo president of?,Lockergnome.com,No budget for a new computer,Lockergnome.com,1,1.0,0,0.0
 Q17,What film immortalized the smell of napalm in the morning?,Apocalypse Now,The Godfather,Apocalypse Now,1,1.0,0,0.0
 Q18,How old was Luciano Pavarotti when he died?,71,20th-century audience for opera,71,1,1.0,0,0.0
