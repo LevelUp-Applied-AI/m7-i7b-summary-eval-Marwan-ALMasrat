@@ -1,0 +1,14 @@
+{
+  "strategy_a": {
+    "em": 0.9,
+    "f1": 0.9333333333333333,
+    "n": 20
+  },
+  "strategy_b": {
+    "em": 0.55,
+    "f1": 0.6083333333333333,
+    "n": 20
+  },
+  "qa_model": "deepset/roberta-base-squad2",
+  "summarizer_model": "sshleifer/distilbart-cnn-6-6"
+}
